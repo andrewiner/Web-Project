@@ -46,3 +46,21 @@
 * 王恺欣：电影信息页面
 * 魏博文：结果页面+部分后端
 * 杨福祥：个人收藏页面
+
+## 如何使用
+
+> 由于我们小组的网站未使用服务器，故需要在本地运行代码和访问数据库。
+
+* 运行mysql指令，建立数据库：
+
+```sql
+CREATE DATABASE user;
+use user;
+CREATE TABLE `user`.`userinfo` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(50) NULL,
+  `password` VARCHAR(50) NULL,
+  PRIMARY KEY (`id`));
+```
+
+* 将app.py中第9行和第14行的123456改成你的mysql数据库的密码，然后运行该py文件，即可生成网站。

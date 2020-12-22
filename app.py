@@ -6,12 +6,12 @@ import traceback
 import random
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:X,xw126929@localhost:3306/user?charset=utf8'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456@localhost:3306/user?charset=utf8'
 
 db = SQLAlchemy(app)
 
 config1 = {
-    'host': 'localhost', 'user': 'root', 'password': 'X,xw126929', 'database': 'user', 'charset': 'utf8', 'port': 3306  # 注意端口为int 而不是str
+    'host': 'localhost', 'user': 'root', 'password': '123456', 'database': 'user', 'charset': 'utf8', 'port': 3306  # 注意端口为int 而不是str
 }
 
 

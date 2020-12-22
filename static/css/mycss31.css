@@ -1,0 +1,322 @@
+html,body/*设置父元素的参考宽高比例，否则之后设置无效*/
+{
+    width:100%;
+    height:100%
+}
+div.mainbody
+{
+    width: 100%;
+    height: 100%;
+}
+div.background
+{
+    background-image: url(../image/background.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100%;
+    width:100%;
+    height:100%;
+}
+div.film_information
+{
+    color:black;
+    margin:20px;
+    padding:20px;
+    width:50%;
+    font-weight: bold;
+    position:relative;
+    left:30%;
+    font-family: STKaiti;
+    font-size: 1.5rem;
+}
+video.background_video
+{
+    position: fixed;  
+    right: 0px;  
+    bottom: 0px;  
+    background: cover;
+    z-index: -1;
+    opacity: 0.8;
+    /*opacity:0.8;*/
+    /*加滤镜*/
+    /*-webkit-filter: grayscale(100%);*/  
+    /*filter:grayscale(20%); //背景灰度设置*/  
+}
+div.mid_content_box
+{
+    position: relative;
+    padding: 0 24px 16px;
+    background: rgba(255,255,255,0.7);
+    width: 58%;
+    min-height:auto;
+    margin:5% 25% 5% auto;
+}
+div.brief_introduction
+{
+    margin:20px;
+    font-size: 1.3rem;
+    font-family: STKaiti;
+    padding-top: 10px;
+}
+audio.background_audio
+{
+    width:250px;
+    height:50px;
+    margin:0 0 20px 0;
+    position:relative;
+    z-index: 10;
+}
+div.box1
+{
+    width:30%;
+    position: absolute;
+}
+a:link 
+{
+    color:blue;
+    text-decoration:underline;
+}  
+a:visited 
+{
+    color:purple;
+    text-decoration:none;
+}
+a:hover 
+{
+    color:yellow;
+    text-decoration:none;
+}
+a:active 
+{
+    color:white;
+    text-decoration:none;
+}
+nav.navigation ul 
+{
+    list-style-type: none;
+    margin: 0 0 0 3%;
+    padding: 0;
+    width: 10%;
+    background-color: hsla(140, 6%, 10%, 0.7);
+    position: fixed;
+    left:-1%;
+    height: 80%;
+    overflow: auto;
+}
+nav.navigation li a 
+{
+    font-weight: bold;
+    font-size: 1.5rem;
+    font-family: STCaiyun;
+    display: block;
+    color: rgba(255,255,255,0.9);
+    padding: 20px 0;
+    text-decoration: none;
+    text-align: center;
+}
+nav.navigation li a:hover
+{
+    background-color: white;
+    color: green;
+}
+nav.navigation li a:active 
+{
+    background-color: orange;
+    color: blue;
+}
+div.content_title
+{
+    color: hsl(64, 100%, 60%);
+    position: absolute;
+    top:-1.5%;
+    left:22%;
+    text-shadow:8px 8px 5px paleturquoise;
+    font-family: STXinwei;
+}
+div.console_box
+{
+    position: fixed;
+    left:77%;
+    width:20%;
+    height:220px;
+    background-color: rgba(106, 220, 255, 0.7);
+    border-radius: 20px;
+    border:5px solid rgba(0,0,0,0.8);
+    margin:0 0 20px 0;
+    overflow: hidden;
+}
+
+
+
+input.mybutton
+{
+    outline-style: none;
+    padding: 10px;
+    color: black;
+    background: yellow;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0px 9px 0px rgb(255, 72, 246),0px 9px 25px rgb(255, 0, 0);
+    margin:0 10px 20px 10px;
+    font-family: STXingkai;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+input.mybutton:hover
+{
+    background: gold;
+    cursor :pointer;
+}
+input.mybutton:active
+{
+    background: gold;
+    box-shadow: 0 5px rgb(241, 38, 174);
+    transform: translateY(4px);
+    transition-duration: 0s;
+}
+input.mybutton_copy
+{
+    outline-style: none;
+    padding: 10px;
+    color: black;
+    background: rgb(0, 255, 42);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0px 9px 0px rgb(255, 72, 246),0px 9px 25px rgb(255, 0, 0);
+    margin:0 10px 20px 10px;
+    font-family: STXingkai;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+input.mybutton_copy:hover
+{
+    background: rgb(16, 170, 42);
+    cursor :pointer;
+}
+input.mybutton_copy:active
+{
+    background: rgb(16, 170, 42);
+    box-shadow: 0 5px rgb(241, 38, 174);
+    transform: translateY(4px);
+    transition-duration: 0s;
+}
+
+    
+    
+input.mybutton2 
+{
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    border-radius: 0 !important;
+    padding: 16px 32px;
+    text-align: center;
+    background-color: gainsboro;
+    color: black;
+    border: 2px solid #4CAF50;
+    border-radius:5px;
+    font-family: STHupo;
+    margin:10px;
+    /*position: absolute;
+    left:20%;
+    top:385px;
+    z-index: 3;*/
+}
+input.mybutton2:hover
+{
+    cursor:pointer;
+    background-color: rgb(93, 169, 255);
+}
+input.mybutton2:active
+{
+    cursor:pointer;
+    background-color: rgb(44, 81, 248);
+}
+input.mybutton2_collected
+{
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    border-radius: 50% !important;
+    padding: 16px 32px;
+    text-align: center;
+    background-color: yellow;
+    color: purple;
+    border: 2px solid #4CAF50;
+    border-radius:5px;
+    font-family: STHupo;
+    margin:10px;
+    /*position: absolute;
+    left:20%;
+    top:385px;
+    z-index: 3;*/
+}
+input.mybutton2_collected:hover
+{
+    cursor:pointer;
+    background-color: rgb(255, 136, 0);
+}
+input.mybutton2_collected:active
+{
+    cursor:pointer;
+    background-color: rgb(255, 59, 59);
+}
+img.theme_picture
+{
+    width: 160px;
+    height: 240px;
+    margin:60px 20px 10px 20px;
+    /*position: absolute;
+    left:18%;
+    z-index: 1;*/
+}
+
+div.advertisement
+{
+    position:fixed;
+    background:rgba(79, 150, 255, 0.6);
+    width:20%;
+    height:40%;
+    border-radius: 20px;
+    left:77.5%;
+    top:50%;
+    text-align: center;
+    margin:20px 0 0 0;
+    overflow: hidden;
+}
+input.mybutton3 
+{
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    text-align: center;
+    background-color: gainsboro;
+    color: black;
+    border: 2px solid red;
+    border-radius:50%;
+    position: absolute;
+    top:5px;
+    left:90%;
+}
+input.mybutton3:hover
+{
+    background-color: blue;
+    color: white;
+    cursor :pointer;
+}
+input.mybutton3:active
+{
+    background-color: black;
+}
+input.day_night_change
+{
+    padding:10px;
+    position: absolute;
+    left:23px;
+    top:23px;
+    border-radius:50%;
+    background: rgb(66, 250, 42);
+    border: 2px solid red;
+}
+input.day_night_change:hover
+{
+    cursor :pointer;
+    background: rgb(100, 255, 52);
+}

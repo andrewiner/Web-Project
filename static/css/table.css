@@ -1,0 +1,133 @@
+@import url(main.css);
+
+h2.title {
+    text-align: center;
+}
+
+div.table {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 250px);
+    justify-content: center;
+}
+
+div.todo {
+    display: grid;
+    justify-content: center;
+}
+
+div.subject {
+    width: 250px;
+    height: 350px;
+    margin-bottom: 20px;
+
+    display: flex;
+    flex-direction: column;
+    vertical-align: top;
+    align-items: center;
+}
+
+a.main {
+    width: 200px;
+    height: 300px;
+    padding: 5px;
+
+    display: flex;
+    flex-direction: column;
+    border: 1px solid;
+    border-color: white;
+    border-radius: 10px;
+    align-items: center;
+    text-decoration: none;
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s;
+}
+
+a.main:hover {
+    transform: scale(1.05);
+    transition: transform 0.1s;
+}
+
+button.collect {
+    margin-top: 15px;
+    width: 70px;
+    height: 25px;
+    padding: 0px;
+    line-height: 25px;
+    border: 1px solid;
+    border-radius: 5px;
+    border-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+button.collected {
+    margin-top: 15px;
+    width: 70px;
+    height: 25px;
+    padding: 0px;
+    line-height: 25px;
+    border: 1px solid;
+    border-radius: 5px;
+    border-color: white;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+button.collect:focus,
+button.collected:focus {
+    outline: none;
+}
+
+span.cancelcollect {
+    display: none;
+}
+
+button.collected:hover {
+    background-color: rgba(255, 0, 0, 0.39);
+}
+
+button.collected:hover span.cancelcollect {
+    transition-delay: 1s;
+    display: inline;
+}
+
+button.collected:hover span.collected {
+    display: none;
+}
+
+img.cover {
+    /* h:w = 3:2 */
+    width: 160px;
+    height: 240px;
+
+    text-align: center;
+}
+
+p.title {
+    font-size: 16px;
+    text-align: center;
+    color: #000;
+    line-height: 20px;
+    margin-top: 7px;
+}
+
+p.summary {
+    display: none;
+}
+
+a.main:hover img.cover,
+a.main:hover p.title {
+    display: none;
+}
+
+a.main:hover p.summary {
+    width: 200px;
+    height: 300px;
+    color: rgb(115, 103, 156);
+    font-size: 9px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 13;
+    overflow: hidden;
+    padding: 10px;
+}

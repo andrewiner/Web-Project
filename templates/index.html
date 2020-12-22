@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Film Land </title>
+
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.10.0-10/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/main.css" />
+    <link rel="stylesheet" href="../static/css/stylet4.css" />
+
+
+    <style>
+        h2.title {
+            text-align: center;
+        }
+
+        div.table {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 250px);
+            justify-content: center;
+        }
+
+        div.todo {
+            display: grid;
+            justify-content: center;
+        }
+
+        div.subject {
+            width: 250px;
+            height: 350px;
+            margin-bottom: 20px;
+
+            display: flex;
+            flex-direction: column;
+            vertical-align: top;
+            align-items: center;
+        }
+
+        a.main {
+            width: 200px;
+            height: 300px;
+            padding: 5px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid;
+            border-color: white;
+            border-radius: 10px;
+            align-items: center;
+            text-decoration: none;
+
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s;
+        }
+
+        a.main:hover {
+            transform: scale(1.05);
+            transition: transform 0.1s;
+        }
+
+        button.collect {
+            background-color: #fff;
+            margin-top: 15px;
+            width: 70px;
+            height: 25px;
+            padding: 0px;
+            line-height: 25px;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        button.collected {
+            margin-top: 15px;
+            width: 70px;
+            height: 25px;
+            padding: 0px;
+            line-height: 25px;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: white;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        button.collect:focus,
+        button.collected:focus {
+            outline: none;
+        }
+
+        span.cancelcollect {
+            display: none;
+        }
+
+        button.collected:hover {
+            background-color: rgba(255, 0, 0, 0.39);
+        }
+
+        button.collected:hover span.cancelcollect {
+            transition-delay: 1s;
+            display: inline;
+        }
+
+        button.collected:hover span.collected {
+            display: none;
+        }
+
+        img.cover {
+            /* h:w = 3:2 */
+            width: 160px;
+            height: 240px;
+
+            text-align: center;
+        }
+
+        p.title {
+            font-size: 16px;
+            text-align: center;
+            color: #000;
+            line-height: 20px;
+            margin-top: 7px;
+        }
+
+        p.summary {
+            display: none;
+        }
+
+        a.main:hover img.cover,
+        a.main:hover p.title {
+            display: none;
+        }
+
+        a.main:hover p.summary {
+            width: 200px;
+            height: 300px;
+            color: rgb(115, 103, 156);
+            font-size: 9px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 13;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        .search- {
+            display: inline-block;
+        }
+
+        .search-box {
+            float: left;
+        }
+
+
+        body {
+            height: 100vh;
+            background-image: url(../static/image/star2.jpg);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            color: #e67e22;
+            font-size: 30px;
+            font-family: STKaiti;
+            /*字体*/
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            /* auto是自动居中 */
+
+            z-index: -99;
+
+        }
+    </style>
+
+</head>
+<h>
+
+
+
+    <body style="color:#e67e22;">
+
+        <h1 width:50vw; style="color:#e67e22;position:absolute; right:200px;">
+            <br><br>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+
+
+            </div>
+        </h1>
+
+
+        <!-- 这是登录前的导航栏 -->
+        <br>
+        <br>
+        {%- if iflogin==0 %}
+        <div class="log"
+            style="display:inline; margin-top:400px; margin-bottom:0;margin-left:140px;margin-right:0;padding:0 0 100px; ">
+            <a href="{{url_for('login')}}">
+                <button text-align:center; style="display:inline; margin:auto; vertical-align:middle; ">
+                    <i class="fas fa-address-card ">
+
+                        <p style="margin:auto; color:#e67e22; font-family:STKaiti;">登录 </p>
+                    </i>
+                </button>
+            </a>
+        </div>
+        {%- else %}
+        <!-- 登录后的导航栏 -->
+        <br>
+        <div class="log"
+            style="display:inline; margin-top:400px; margin-bottom:0;margin-left:140px;margin-right:0;padding:0 0 100px; ">
+
+
+            <form name="logout" id="logout" action="{{url_for('logout')}}" style="display:inline;">
+                <button text-align:center; style="display:inline; margin:auto; vertical-align:middle; ">
+                    <i class="fas fa-address-card ">
+
+                        <a onclick="submissionout()">
+                            <p style="margin:auto; color:#e67e22; font-family:STKaiti;">
+                                登出</p>
+                        </a>
+                    </i>
+
+
+                </button>
+
+            </form>
+        </div>
+        {%- endif %}
+
+        {%- if iflogin==1 %}
+
+        {%- else %}
+        <div class="favorite" style="display:inline;  vertical-align:middle ;">
+
+            <a href="{{url_for('register')}}">
+                <button text-align:center; style="display:inline; margin:0; vertical-align:middle ">
+                    <i class="fas fa-address-book">
+
+                        <p style="margin:auto; color:#e67e22; font-family:STKaiti;">注册 </p>
+                    </i>
+                </button>
+            </a>
+
+        </div>
+
+        {%- endif %}
+        {%- if iflogin==0 %}
+
+        {%- else %}
+
+        <div class="favorite" style="display:inline;  vertical-align:middle ;">
+            <a href="{{url_for('personal')}}">
+                <button text-align:center; style="display:inline; margin:0; vertical-align:middle ">
+                    <i class="fas fa-heart">
+                        <br>
+                        <p style="margin:auto; color:#e67e22; display:inline; font-family:STKaiti; text-align: center;">
+                            我的收藏 </p>
+                    </i>
+                </button>
+
+            </a>
+        </div>
+        {%- endif %}
+
+
+
+
+
+        <!-- 登录前的导航栏 结束-->
+
+
+
+
+
+
+        <br>
+        <!-- 登录后的导航栏 结束-->
+
+        <!-- 搜索框 -->
+        <form name="search" id="search" action="{{ url_for('addsearch') }}" method='POST'
+            style="margin:0  20px; padding:0 100px;">
+            <div class="search-box" style="margin:20px;display:inline; width:fit-content; ">
+
+                <input class="search-input" type="text" name="search" id="search" placeholder="请输入你想了解的电影"
+                    style="display:inline; display:inline; margin:auto; vertical-align:middle;">
+
+
+                <div class="direct" style="display:inline; margin:auto; vertical-align:middle;">
+
+                    <button title="我的收藏" style="margin:auto; vertical-align:middle; display:inline; outline:none;background-color: Transparent; 
+            border-style: none;    outline: none;   ">
+                        <input class="search-input" type="submit" name="搜索"
+                            style="display:none;  vertical-align:middle;">
+                        <i class="fas fa-search" style="margin:auto; ">
+                        </i>
+                    </button>
+                </div>
+        </form>
+
+
+
+
+
+        </div>
+        <div class="header" back-ground-image:rgb(8, 1, 1);
+            style="color:#333; display:inline; position:absolute; right:27%; top:10%; width:45vw; font-size:6rem;  font-weight:bold;">
+            <p>
+                Falling for Film
+            </p>
+        </div>
+
+
+        <!-- 搜索框结束 -->
+
+
+
+
+        <br><br>
+        <div style="width:100vw;">
+            <p1 style="display:inline; width:100vw;">镜头代表着眼睛，但它代表着两种眼睛，
+                一种是观众的眼睛，一种是剧中人的眼睛。——〔中〕夏衍
+            </p1>
+        </div>
+        <div class="line" style="--color:rgb(219, 37, 37);           --x:3 ; --z:3 ; --d:1;"></div>
+        <div class="line" style="--color:rgb(131, 5, 5);             --x:3 ; --z:2 ; --d:2;"></div>
+        <div class="line" style="--color:rgb(168, 8, 96);            --x:4 ; --z:1 ; --d:3;"></div>
+        <div class="line" style="--color:rgb(172, 19, 103);          --x:4 ; --z:0 ; --d:1;"></div>
+        <div class="line" style="--color:rgb(14, 11, 204);           --x:6 ; --z:-1; --d:2;"></div>
+        <div class="line" style="--color:rgb(16, 136, 167);          --x:6 ; --z:-2; --d:3;"></div>
+        <div class="line" style="--color:rgb(93, 179, 12);           --x:8 ; --z:-3; --d:1;"></div>
+        <div class="line" style="--color:rgb(34, 114, 27);           --x:10; --z:-4; --d:2;"></div>
+        <div class="line" style="--color:rgb(189, 20, 20);           --x:12; --z:-5; --d:3;"></div>
+        <div class="line" style="--color:rgb(82, 4, 4);              --x:14; --z:-6; --d:1;"></div>
+        <div class="line" style="--color:rgb(216, 106, 16);          --x:16; --z:-7; --d:2;"></div>
+        <div class="line" style="--color:rgb(61, 40, 13);            --x:18; --z:-8; --d:3;"></div>
+        <div class="line" style="--color:rgb(70, 204, 44);           --x:20; --z:-9; --d:1;"></div>
+
+        <div id='navigation' class='table'>
+            {%- for item in navigation %}
+            <div class='subject'>
+                <a class='main' href="{{ url_for('content', content_id=item.id) }}">
+                    <img class='cover' src='{{ item.cover_href }}' />
+                    <p class='title'>{{ item.title }}</p>
+                    {%- autoescape false %}
+                    <p class='summary'>{{ item.plot }}</p>
+                    {%- endautoescape %}
+                </a>
+                {%- if flag==2 %}
+                <a href="{{url_for('login')}}">
+                    <button class='collect'>收藏</button>
+                </a>
+
+                {%- else %}
+                {%- if item.id in store %}
+                <form name='{{item.id}}' id='{{item.id}}' action="{{url_for('cancelstore')}}" method='POST'>
+                    <div style="display:none;">
+                        <input type="text" id="act" name="act" value="2">
+                        <input type="text" id="content_id" name="content_id" value='{{item.id}}'>
+                    </div>
+                    <button type="button" id="cancel" name="cancel" class='collected'
+                        onclick="submissioncancel('{{item.id}}')">
+                        <span class='collected'>已收藏</span>
+                        <span class='cancelcollect'>取消收藏</span>
+                    </button>
+                </form>
+                {%- else %}
+                <form name='{{item.id}}' id='{{item.id}}' action="{{url_for('addstore')}}" method='POST'>
+                    <div style="display:none;">
+                        <input type="text" id="act" name="act" value="2">
+                        <input type="text" id="content_id" name="content_id" value='{{item.id}}'>
+                    </div>
+                    <button id="store" name="store" type="button" class='collect'
+                        onclick="submissionadd('{{item.id}}')">收藏</button>
+                </form>
+                {%- endif %}
+                {%- endif %}
+            </div>
+            {%- endfor %}
+        </div>
+        <script>
+            function submissionout()
+            {
+                document.getElementById('logout').submit();
+                return true;
+            }
+            function submissionadd(x)
+            {
+                document.getElementById(x).submit();
+                return true;
+            }
+            function submissioncancel(y)
+            {
+                document.getElementById(y).submit();
+                return true;
+            }
+        </script>
+    </body>
+
+</html>

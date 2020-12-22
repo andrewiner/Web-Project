@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+    <meta charset='utf-8' />
+    <link rel="stylesheet" href="../static/css/main.css" />
+    <link rel="stylesheet" href="../static/css/local.css" />
+    <link rel="shortcut icon" href="../static/image/favicon.ico" type="image/x-icon" />
+    <title>
+        Result
+    </title>
+
+    <style>
+        h2.title {
+            text-align: center;
+        }
+
+        div.table {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 250px);
+            justify-content: center;
+        }
+
+        div.todo {
+            display: grid;
+            justify-content: center;
+        }
+
+        div.subject {
+            width: 250px;
+            height: 350px;
+            margin-bottom: 20px;
+
+            display: flex;
+            flex-direction: column;
+            vertical-align: top;
+            align-items: center;
+        }
+
+        a.main {
+            width: 200px;
+            height: 300px;
+            padding: 5px;
+
+            display: flex;
+            flex-direction: column;
+            border: 1px solid;
+            border-color: white;
+            border-radius: 10px;
+            align-items: center;
+            text-decoration: none;
+            background-color: white;
+
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s;
+        }
+
+        a.main:hover {
+            transform: scale(1.05);
+            transition: transform 0.1s;
+        }
+
+        button.collect {
+            margin-top: 15px;
+            width: 70px;
+            height: 25px;
+            padding: 0px;
+            line-height: 25px;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: white;
+            background-color: white;
+
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        button.collected {
+            margin-top: 15px;
+            width: 70px;
+            height: 25px;
+            padding: 0px;
+            line-height: 25px;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: white;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        button.collect:focus,
+        button.collected:focus {
+            outline: none;
+
+        }
+
+        span.cancelcollect {
+            display: none;
+
+        }
+
+        button.collected:hover {
+
+
+            background-color: rgba(255, 0, 0, 0.39);
+        }
+
+        button.collected:hover span.cancelcollect {
+            transition-delay: 1s;
+            display: inline;
+        }
+
+        button.collected:hover span.collected {
+            display: none;
+        }
+
+        img.cover {
+            /* h:w = 3:2 */
+            width: 160px;
+            height: 240px;
+
+            text-align: center;
+        }
+
+        p.title {
+            font-size: 16px;
+            text-align: center;
+            color: #000;
+            line-height: 20px;
+            margin-top: 7px;
+        }
+
+        p.summary {
+            display: none;
+        }
+
+        a.main:hover img.cover,
+        a.main:hover p.title {
+            display: none;
+        }
+
+        a.main:hover p.summary {
+            width: 200px;
+            height: 300px;
+            color: rgb(115, 103, 156);
+            font-size: 9px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 13;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        video.background_video {
+            position: fixed;
+            right: 0px;
+            bottom: 0px;
+            background: cover;
+            z-index: -1;
+            opacity: 0.8;
+            /*opacity:0.8;*/
+            /*加滤镜*/
+            /*-webkit-filter: grayscale(100%);*/
+            /*filter:grayscale(20%); //背景灰度设置*/
+        }
+    </style>
+</head>
+
+<body>
+    <h2 class='title'>
+        搜索结果
+    </h2>
+    <video id="background_video" class="background_video" src="../static/video/background_video.mp4" autoplay loop
+        muted></video>
+
+    <div class='top_block top_right'>
+        <a href="{{url_for('index')}}">
+            <button class='top_right'>
+                主页
+            </button>
+        </a>
+    </div>
+    {%- if iflogin==0 %}
+
+    {%- else %}
+    <div class='top_block top_right'>
+        <a href="{{url_for('personal')}}">
+            <button class='top_right'>
+                个人收藏
+            </button>
+        </a>
+    </div>
+    {%- endif %}
+
+    <div id='navigation' class='table'>
+
+        {%- for item in navigation %}
+        <div class='subject'>
+            <a class='main' href="{{ url_for('content', content_id=item.id) }}">
+                <img class='cover' src='{{ item.cover_href }}' />
+                <p class='title'>{{ item.title }}</p>
+                {%- autoescape false %}
+                <p class='summary'>{{ item.plot }}</p>
+                {%- endautoescape %}
+            </a>
+            {%- if flag==2 %}
+            <a href="{{url_for('login')}}">
+                <button class='collect'>收藏</button>
+            </a>
+
+            {%- else %}
+            {%- if item.id in store %}
+            <form name='{{item.id}}' id='{{item.id}}' action="{{url_for('cancelstore')}}" method='POST'>
+                <div style="display:none;">
+                    <input type="text" id="act" name="act" value="3">
+                    <input type="text" id="content_id" name="content_id" value='{{item.id}}'>
+                </div>
+                <button type="button" id="cancel" name="cancel" class='collected'
+                    onclick="submissioncancel('{{item.id}}')">
+                    <span class='collected'>已收藏</span>
+                    <span class='cancelcollect'>取消收藏</span>
+                </button>
+            </form>
+            {%- else %}
+            <form name='{{item.id}}' id='{{item.id}}' action="{{url_for('addstore')}}" method='POST'>
+                <div style="display:none;">
+                    <input type="text" id="act" name="act" value="3">
+                    <input type="text" id="content_id" name="content_id" value='{{item.id}}'>
+                </div>
+                <button id="store" name="store" type="button" class='collect'
+                    onclick="submissionadd('{{item.id}}')">收藏</button>
+            </form>
+            {%- endif %}
+            {%- endif %}
+        </div>
+        {%- endfor %}
+    </div>
+
+    <HR />
+    <script>
+        function submissionadd(x)
+        {
+            document.getElementById(x).submit();
+            return true;
+        }
+        function submissioncancel(y)
+        {
+            document.getElementById(y).submit();
+            return true;
+        }
+    </script>
+</body>
+
+</html>

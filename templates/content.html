@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>content</title>
+    <link rel="stylesheet" href="../static/css/mycss31.css" />
+    <link rel="icon" href="../static/image/logo.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../static/image/logo.ico" type="image/x-icon" />
+
+    <style>
+        input.collect {
+            margin-top: 15px;
+            width: 70px;
+            height: 25px;
+            padding: 0px;
+            line-height: 25px;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        input.collected {
+            margin-top: 15px;
+            width: 70px;
+            height: 25px;
+            padding: 0px;
+            line-height: 25px;
+            border: 1px solid;
+            border-radius: 5px;
+            border-color: white;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        input.collect:focus,
+        input.collected:focus {
+            outline: none;
+        }
+
+        span.cancelcollect {
+            display: none;
+        }
+
+        input.collected:hover {
+            background-color: rgba(255, 0, 0, 0.39);
+        }
+
+        input.collected:hover span.cancelcollect {
+            transition-delay: 1s;
+            display: inline;
+        }
+
+        input.collected:hover span.collected {
+            display: none;
+        }
+
+        /*夜间模式切换动画*/
+
+        /* 白天和黑夜的背景 */
+        .mk-dark-mode-sky,
+        .mk-dark-mode-sky:before {
+            content: "";
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 100;
+            transition: 2s ease all;
+        }
+
+        .mk-dark-mode-sky {
+            background: linear-gradient(#feb8b0, #fef9db);
+        }
+
+        .mk-dark-mode-sky:before {
+            opacity: 0;
+            background: linear-gradient(#4c3f6d, #6c62bb, #93b1ed);
+        }
+
+        .mk-dark-mode .mk-dark-mode-sky:before {
+            opacity: 1;
+        }
+
+        /* 太阳和月亮 */
+        .mk-dark-mode-planet {
+            z-index: 101;
+            position: fixed;
+            left: -50%;
+            top: -50%;
+            width: 200%;
+            height: 200%;
+            transform-origin: center bottom;
+            transition: 2s cubic-bezier(.7, 0, 0, 1) all;
+        }
+
+        .mk-dark-mode-planet:after {
+            position: absolute;
+            left: 35%;
+            top: 40%;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            content: "";
+            background: linear-gradient(#fefefe, #fffbe8);
+        }
+
+        .mk-dark-mode-sky {
+            display: none;
+        }
+
+        .mk-dark-mode-planet {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script src="../static/js/myjs19.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+
+    <div class="content_title">
+        <h1>{{content.title}}</h1>
+    </div>
+
+    <div id="sky" class="mk-dark-mode-sky">
+        <div id="planet" class="mk-dark-mode-planet"></div>
+    </div>
+
+
+    <nav class="navigation">
+        <ul>
+            <li><a target="_blank" href="{{ url_for('index') }}">主页</a></li>
+            <li><a target="_blank" href="{{ url_for('index') }}">搜索</a></li>
+            {%- if flag==2 %}
+            {%- else %}
+            <li><a target="_blank" href="{{ url_for('personal') }}">个人</a></li>
+            {%- endif %}
+
+            {%- if flag==2 %}
+            <li><a target="_blank" href="{{ url_for('login') }}">登录</a></li>
+            {%- else %}
+            <li style="cursor:pointer">
+                <form name="logout" id="logout" action="{{url_for('logout')}}">
+                    <a target="_blank" onclick="submissionout()">登出</a>
+                </form>
+            </li>
+            {%- endif %}
+
+        </ul>
+    </nav>
+
+    <div id="console_box" class="console_box">
+
+        <input type="button" id="day_night_change" value="night" class="day_night_change" onclick="night()" />
+        <input id="hid_btn" class="mybutton3" type='button' value='<' onclick='hide()' />
+        <h4 id="music_control" style="text-align: center;font-size: 1.2rem;color: rgb(255, 65, 40)">背景设置</h4>
+        <center>
+            <audio class="background_audio" id="background_audio" src="../static/audio/background_audio1.mp3"
+                autoplay="autoplay" controls="controls" loop="loop" preload="auto">
+        </center>
+        </audio>
+        <center>
+            <input class="mybutton" type='button' value='切换音乐' onclick='change_song()' />
+            <input class="mybutton_copy" type='button' value='切换背景' onclick='change_bg_picture()' />
+        </center>
+    </div>
+
+    <div id="advertisement" class="advertisement">
+        <input id="hid_btn2" class="mybutton3" type='button' value='<' onclick='hide_ad()' />
+        <br />
+        <h2>广告位招租</h2>
+    </div>
+
+
+    <div class="mainbody">
+        <video id="background_video" class="background_video" src="../static/video/background_video.mp4" autoplay loop
+            muted></video>
+        <div class="mid_content_box" id="mid_content_box">
+
+            <div class="box1">
+                <center>
+                    <a target="_blank" href="{{content.cover_href}}" class="pic">
+                        <img class="theme_picture" src="{{content.cover_href}}">
+                    </a>
+                    <br />
+                    <!--input id="collected_btn" class="mybutton2" type='button' value='点击收藏' onclick='collect()' /-->
+
+                    {%- if flag==2 %}
+                    <input type="button" class='mybutton2' value="点击收藏" onclick="jump_to_submit()" />
+                    {%- elif flag==1 %}
+                    <form name="cancelstore" id="cancelstore" action="{{url_for('cancelstore')}}" method='POST'>
+                        <div style="display:none;">
+                            <input type="text" id="content_id" name="content_id" value='{{id}}'>
+                            <input type="text" id="act" name="act" value="1">
+                        </div>
+                        <input type="button" class="mybutton2_collected" id="cancel" name="cancel" value="已收藏"
+                            onclick="submissioncancel();cancel()" />
+                    </form>
+                    {%- else %}
+                    <form name="addstore" id="addstore" action="{{url_for('addstore')}}" method='POST'>
+                        <div style="display:none;">
+                            <input type="text" id="content_id" name="content_id" value='{{id}}'>
+                            <input type="text" id="act" name="act" value="1">
+                        </div>
+                        <input id="store" name="store" type="button" class='mybutton2' value="点击收藏"
+                            onclick="submissionadd();collect()" />
+                    </form>
+                    {%- endif %}
+
+
+
+                </center>
+            </div>
+
+            <div class="film_information" id="film_information">
+                {%- autoescape false %}
+                <p>{{content.basicinfo}}</p>
+                {%- endautoescape %}
+            </div>
+
+            <div class="brief_introduction">
+                <h3 id="title_of_film" style="color:purple">{{content.title}}的剧情简介 · · · · · ·</h3>
+                {%- autoescape false %}
+                <p>{{content.plot}}</p>
+                {%- endautoescape %}
+            </div>
+
+            <p>
+                <br><br>
+            </p>
+
+        </div>
+    </div>
+    <script>
+        function submissionout()
+        {
+            document.getElementById('logout').submit();
+            return true;
+        }
+        function submissionadd()
+        {
+            document.getElementById('addstore').submit();
+            return true;
+        }
+        function submissioncancel()
+        {
+            document.getElementById('cancelstore').submit();
+            return true;
+        }
+        function jump_to_submit()
+        {
+            window.location.href = "{{ url_for('login') }}";
+        }
+
+        $(".day_night_change").click
+            (
+                function ()
+                {
+                    $('.mk-dark-mode-sky').show(0);
+                    $('.mk-dark-mode-planet').show(500);
+                    $("body").toggleClass("mk-dark-mode");
+                    var angle = $('.mk-dark-mode-planet').data('angle') + 360 || 360;
+                    $('.mk-dark-mode-planet').css({ 'transform': 'rotate(' + angle + 'deg)' });
+                    $('.mk-dark-mode-planet').data('angle', angle);
+                    setTimeout(function () { $('.mk-dark-mode-sky').hide(0); $('.mk-dark-mode-planet').hide(0); }, 2100);
+                }
+            );
+    </script>
+</body>
+
+</html>

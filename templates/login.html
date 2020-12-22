@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../static/image/k4.ico" type="image/x-icon" />
+    <title>Log In Page</title>
+</head>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .header {
+        padding: 60px;
+        font-size: 50px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .topnav {
+        overflow: hidden;
+        background-color: lightblue;
+    }
+
+    .topnav a {
+        float: left;
+        color: whitesmoke;
+        text-align: center;
+        padding: 15px 20px;
+        text-decoration: none;
+        width: 50%;
+    }
+
+    .topnav a:hover {
+        background-color: lightskyblue;
+        color: gray;
+    }
+
+    body {
+        margin: 0;
+        background-size: cover;
+        background-image: url('../static/image/lg_reg_background.jpg');
+        background-repeat: no-repeat;
+        text-align: center;
+    }
+
+    .login {
+        margin: auto;
+        color: rgb(22, 10, 78);
+        width: 40%;
+    }
+
+    .remind {
+        padding: 8px;
+        text-align: left;
+        font-weight: bolder;
+    }
+
+    input[type='text'],
+    select {
+        width: 70%;
+        padding: 8px;
+    }
+
+    input[type='password'],
+    select {
+        width: 70%;
+        padding: 8px;
+    }
+
+    input[type='button'],
+    select {
+        width: 70%;
+        background-color: lightblue;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    input[type='text']:focus {
+        background-color: lightgray;
+    }
+
+    input[type='password']:focus {
+        background-color: lightgray;
+    }
+
+    input[type='button']:hover {
+        background-color: lightskyblue;
+    }
+
+    #lgWarning {
+        color: red;
+    }
+
+    #code {
+        background-color: lightgray;
+        color: red;
+        font-weight: bolder;
+        font-style: italic;
+    }
+
+    #codeWarning {
+        color: red;
+
+    }
+</style>
+
+<body onload="createCode()">
+    <script>
+        function judgeLogIn()
+        {
+
+            var mid1 = document.getElementById('pawd').value;
+            var mid2 = document.getElementById('uname').value;
+            if (mid1 == '' || mid2 == '')
+            {
+                document.getElementById("lgWarning").innerHTML = "用户名或密码不能为空";
+                return false;
+            }
+            else
+            {
+
+                return true;
+            }
+        }
+    </script>
+    <script>
+        var veriCode;
+        function createCode()
+        {
+            veriCode = '';
+            var checkCode = document.getElementById('code');
+            var randomChar = new Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+                'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
+            for (var i = 0; i < 4; ++i)
+            {
+                var index = Math.floor(Math.random() * 62);
+                veriCode += randomChar[index];
+            }
+            checkCode.value = veriCode;
+        }
+        function compareCode()
+        {
+            var inCode = document.getElementById('inCode').value;
+            var war = document.getElementById('codeWarning');
+            if (inCode == '' || inCode == null)
+            {
+                war.innerHTML = '验证码不能为空！'
+                return false;
+            }
+            else if (inCode != veriCode)
+            {
+                war.innerHTML = '验证码错误！'
+                document.getElementById('inCode').value = '';
+                createCode();
+                return false;
+            }
+            else if (inCode == veriCode)
+            {
+                war.innerHTML = '';
+                document.getElementById('loginForm').submit();
+                return true;
+            }
+        }
+    </script>
+    <div class='header'>
+        电影爱好者的聚集地
+    </div>
+    <div class='topnav'>
+        <a href="{{url_for('index')}}">主页</a>
+        <a href="{{url_for('register')}}">注册</a>
+    </div>
+    <h2>欢迎回来</h2>
+    <!--需要更改提交的目标文件-->
+    <div class='login'>
+
+        <p id='lgWarning'></p>
+        <form id='loginForm' action='{{act}}' method='POST' name='lgForm'>
+            <div class='remind'>
+                您的用户名:<br />
+            </div>
+            <input id='uname' type="text" name="username_lgin" size="25" maxlength="20" value='{{name}}'><br />
+            <div class='remind'>
+                密码:<br />
+            </div>
+            <input id='pawd' type="password" name="password_lgin" size="25" maxlength="20"><br />
+            <div class='remind'>
+                验证码:<br />
+            </div>
+            <input id='inCode' type='text' placeholder="如果看不清，请点击验证码框进行刷新" maxlength='4' style='width:50%'>
+            <input type='button' id='code' onclick='createCode()' style='width:20%'>
+            <p id='codeWarning'></p>
+            <input type="button" onclick="judgeLogIn();compareCode()" name="Login" value="登录">
+        </form>
+    </div>
+    <p>
+        如果您是我们网站的新用户，请
+        <a href="{{url_for('register')}}">注册</a>
+        一个账户加入我们吧！
+    </p>
+    <script>
+        var judge = parseInt('{{login_judge}}');
+        if (judge != 0)
+        {
+            document.getElementById('lgWarning').innerHTML = '用户名或密码输入错误!'
+        }
+
+    </script>
+</body>
+
+</html>

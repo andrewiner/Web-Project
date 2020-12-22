@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../static/image/k4.ico" type="image/x-icon" />
+    <title>Registration Page</title>
+</head>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .header {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .topnav {
+        overflow: hidden;
+        background-color: lightblue;
+    }
+
+    .topnav a {
+        float: left;
+        color: whitesmoke;
+        text-align: center;
+        padding: 15px 20px;
+        text-decoration: none;
+        width: 50%;
+    }
+
+    .topnav a:hover {
+        background-color: lightskyblue;
+        color: gray;
+    }
+
+    body {
+        margin: 0;
+        background-size: cover;
+        background-image: url('../static/image/lg_reg_background.jpg');
+        background-repeat: no-repeat;
+        text-align: left;
+    }
+
+    .regi {
+        margin: auto;
+        color: rgb(22, 10, 78);
+        width: 30%;
+    }
+
+    .remind {
+        color: rgb(245, 99, 99);
+        padding: 8px;
+        text-align: left;
+        font-weight: bolder;
+    }
+
+    .warning {
+        color: rgb(245, 99, 99);
+    }
+
+    input[type='text'],
+    select {
+        width: 100%;
+        padding: 10px;
+    }
+
+    input[type='password'],
+    select {
+        width: 100%;
+        padding: 10px;
+    }
+
+    input[type='button'],
+    select {
+        width: 100%;
+        background-color: lightblue;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    input[type='button']:hover {
+        background-color: lightskyblue;
+    }
+
+    #code {
+        background-color: lightgray;
+        color: red;
+        font-weight: bolder;
+        font-style: italic;
+    }
+</style>
+
+<body onload='createCode()'>
+    <script src="../static/js/judge21.js"></script>
+    <div class='header'>
+        <h1>欢迎加入我们</h1>
+        <h2>爱电影，更爱生活</h2>
+    </div>
+    <div class='topnav'>
+        <a href="{{url_for('index')}}">主页</a>
+        <a href="{{url_for('login')}}">登录</a>
+    </div>
+    <script>
+        function outputrule()
+        {
+            document.getElementById('pwdRule').innerHTML = '<p id=\'r1\'>无空格</p><p id=\'r2\'>长度在8-20位之间</p><p id=\'r3\'>至少包含一位大写字母，一位小写字母，一位数字和一位特殊符号</p>';
+        }
+        function outputClear()
+        {
+            document.getElementById('pwdRule').innerHTML = '';
+        }
+        function hideShowPwd(id1, id2)
+        {
+            var picture = document.getElementById(id1);
+            var Input = document.getElementById(id2);
+            if (Input.type == 'password')
+            {
+                Input.type = 'text';
+                picture.src = '../static/image/密码可见.png';
+            }
+            else
+            {
+                Input.type = 'password';
+                picture.src = '../static/image/密码不可见.png';
+            }
+        }
+    </script>
+    <script>
+        var veriCode;
+        function createCode()
+        {
+            veriCode = '';
+            var checkCode = document.getElementById('code');
+            var randomChar = new Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+                'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
+            for (var i = 0; i < 4; ++i)
+            {
+                var index = Math.floor(Math.random() * 62);
+                veriCode += randomChar[index];
+            }
+            checkCode.value = veriCode;
+        }
+        function compareCode()
+        {
+            var inCode = document.getElementById('inCode').value;
+            var war = document.getElementById('codeWarning');
+            if (inCode == '' || inCode == null)
+            {
+                war.innerHTML = '验证码不能为空！'
+                return false;
+            }
+            else if (inCode != veriCode)
+            {
+                war.innerHTML = '验证码错误！'
+                createCode();
+                return false;
+            }
+            else
+            {
+                war.innerHTML = '';
+                document.getElementById('regiForm').submit();
+                return true;
+            }
+        }
+    </script>
+    <!--将表单的提交文件修改-->
+    <div class='regi'>
+        <form id='regiForm' action="" method='POST' name='regiForm'>
+            <br />
+            <br />
+
+            <input id='Uname' type='text' name='username_regi' size='25' maxlength='20' placeholder='请输入用户名'
+                onblur="regiForm.action='{{act1}}';judgeUsername()" value='{{name}}'><br />
+            <p id='warUsername' class='warning'></p>
+            <span>
+                <input id='Pawd' type='password' name='password_regi' size='25' maxlength='20'
+                    onfocus='outputrule();judgeRegiPassword_available()' oninput='judgeRegiPassword_available()'
+                    onblur='outputClear()' placeholder="请输入密码" value='{{password}}'>
+                <img id='showpwd' onclick='hideShowPwd("showpwd","Pawd")' src='../static/image/密码不可见.png'
+                    style='height:35px; position:absolute;left:62%'>
+            </span>
+            <p id='pwdRule' class='warning'></p>
+            <p id='warPassword'></p>
+            <span>
+                <input id='ensPawd' type='password' name='password_ensure' size='25' maxlength='20' placeholder='请确认密码'
+                    value='{{passworden}}'>
+                <img id='showPwd' onclick='hideShowPwd("showPwd","ensPawd")' src='../static/image/密码不可见.png'
+                    style='height:35px; position:absolute;left:62%'>
+            </span>
+            <br /><br />
+            <p id='warReentryPassword' class='warning'></p>
+            <input id='inCode' type='text' placeholder="请输入验证码,如果看不清，请点击验证码框进行刷新" style='width:80%'>
+            <input type='button' id='code' onclick='createCode()' style='width:15%'>
+            <p id='codeWarning' class='warning'></p>
+            <input type='button' onclick="regiForm.action='{{act2}}';judgeRegiPassword_ensure();compareCode()"
+                value='现在注册'>
+        </form>
+    </div>
+    <script>
+        var judge = parseInt('{{register_judge}}')
+        if (judge == 1)
+        {
+            document.getElementById('warUsername').innerHTML = "该用户名已经被占用，请重新输入!";
+        }
+        else if (judge == 2)
+        {
+            document.getElementById('warUsername').innerHTML = "该用户名可用";
+        }
+
+        function judgeRegiPassword_ensure()
+        {
+            var iniPassword = document.getElementById('Pawd').value;
+            var reentryPassword = document.getElementById('ensPawd').value;
+            var war = document.getElementById('warReentryPassword');
+            if (reentryPassword == '' || reentryPassword == null || iniPassword == '' || iniPassword == null)
+            {
+                war.innerHTML = '请检查你的密码并且重新输入！';
+                return false;
+            }
+            else if (reentryPassword != iniPassword)
+            {
+                war.innerHTML = '两次输入不同，请重新输入！';
+                return false;
+            }
+            else
+            {
+                var judge = parseInt('{{register_judge}}')
+                if (judge == 1)
+                {
+                    return false;
+                }
+                else if (judge == 2)
+                {
+
+                    return true;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
